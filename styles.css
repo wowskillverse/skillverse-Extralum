@@ -1,0 +1,225 @@
+/* =========================================================
+   Demo SVG Parallax — Estilos base
+   Compatible con WordPress (no usa variables globales CSS
+   que puedan conflictuar con el tema activo).
+   Todos los selectores llevan el prefijo .ep-  (extralum parallax)
+   ========================================================= */
+
+/* ─── Reset mínimo ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #0d0d1a;
+  color: #f0f0f5;
+  overflow-x: hidden;
+}
+
+/* ─── Hero: sección donde vive el parallax ──────────────── */
+.ep-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #0d0d1a;
+}
+
+/* Contenedor de la escena SVG */
+.ep-scene {
+  position: relative;
+  width: min(800px, 90vw);
+  aspect-ratio: 4 / 3;
+  /* Limita el desbordamiento del efecto */
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 0 80px rgba(124, 58, 237, 0.25);
+}
+
+/* El SVG ocupa todo el contenedor */
+.ep-scene img.ep-svg,
+.ep-scene svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── Capas del parallax (cuando el SVG está inline) ─────── */
+/*
+   Si el SVG se carga inline (embed), las capas internas
+   llevan data-parallax-mouse y data-parallax-scroll.
+   El JS aplica transform directamente sobre ellas.
+*/
+[data-parallax-mouse],
+[data-parallax-scroll] {
+  will-change: transform;
+  transform-origin: center center;
+}
+
+/* ─── Alternativa: wrapper con capas HTML ─────────────────── */
+.ep-layer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* ─── Contenido superpuesto opcional ─────────────────────── */
+.ep-overlay-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ─── Sección debajo del hero (para probar scroll) ──────── */
+.ep-section {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+
+.ep-section-inner {
+  max-width: 680px;
+  text-align: center;
+}
+
+.ep-section-inner h2 {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: 1rem;
+  color: #a78bfa;
+}
+
+.ep-section-inner p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #c4c4d4;
+}
+
+/* ─── Indicador de scroll ────────────────────────────────── */
+.ep-scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0.5;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #a78bfa;
+  animation: ep-bounce 1.8s ease-in-out infinite;
+}
+
+.ep-scroll-hint::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(to bottom, #a78bfa, transparent);
+}
+
+@keyframes ep-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ─── prefers-reduced-motion ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  [data-parallax-mouse],
+  [data-parallax-scroll],
+  .ep-layer {
+    will-change: auto;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .ep-scroll-hint {
+    animation: none;
+  }
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .ep-scene {
+    border-radius: 8px;
+  }
+}
+
+/* =========================================================
+   Página 2: parallax por scroll con fondo SVG constante
+   ========================================================= */
+.ep-page-scroll {
+  background: #050510;
+  color: #f0f0f5;
+}
+
+.ep-fixed-bg-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.ep-fixed-bg-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(5, 5, 16, 0.35), rgba(5, 5, 16, 0.7));
+  pointer-events: none;
+}
+
+.ep-fixed-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ep-scroll-body {
+  position: relative;
+  z-index: 1;
+}
+
+.ep-scroll-step {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 3rem 1.5rem;
+}
+
+.ep-scroll-card {
+  max-width: 760px;
+  background: rgba(10, 10, 30, 0.45);
+  border: 1px solid rgba(167, 139, 250, 0.28);
+  backdrop-filter: blur(6px);
+  padding: clamp(1.2rem, 3vw, 2rem);
+  border-radius: 16px;
+}
+
+.ep-scroll-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: #c4b5fd;
+  font-size: clamp(1.3rem, 3.2vw, 2.1rem);
+}
+
+.ep-scroll-card p {
+  margin: 0;
+  line-height: 1.7;
+  color: #e5e7eb;
+}

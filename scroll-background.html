@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parallax Scroll Body — Extralum</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="ep-page-scroll">
+  <!-- Fondo constante: se queda fijo durante toda la página -->
+  <div class="ep-fixed-bg-wrap" aria-hidden="true">
+    <img
+      class="ep-fixed-bg"
+      src="assets/hero.svg"
+      alt=""
+      width="800"
+      height="600"
+    />
+  </div>
+
+  <main class="ep-scroll-body">
+    <section class="ep-scroll-step">
+      <article class="ep-scroll-card">
+        <h2>Demo 2: fondo SVG fijo</h2>
+        <p>
+          Este ejemplo usa solo scroll vertical. El SVG permanece como fondo constante
+          durante toda la página y sus capas se desplazan según el progreso global del body.
+        </p>
+      </article>
+    </section>
+
+    <section class="ep-scroll-step">
+      <article class="ep-scroll-card">
+        <h2>Progreso de scroll 0 → 100%</h2>
+        <p>
+          Al inicio del documento el efecto está en su estado inicial. A medida que bajas,
+          cada capa avanza a distinta velocidad. El punto final se alcanza al llegar al final del body.
+        </p>
+      </article>
+    </section>
+
+    <section class="ep-scroll-step">
+      <article class="ep-scroll-card">
+        <h2>Listo para WordPress</h2>
+        <p>
+          Puedes usar este patrón en un bloque HTML o shortcode, manteniendo el SVG y
+          este script encolados desde tu tema o plugin para no depender del editor.
+        </p>
+      </article>
+    </section>
+
+    <section class="ep-scroll-step">
+      <article class="ep-scroll-card">
+        <h2>Fin de la página</h2>
+        <p>
+          Aquí el efecto llega a su estado final, porque el progreso de scroll ya es 1.0
+          (final del body).
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <script src="parallax-scroll-body.js"></script>
+</body>
+</html>
