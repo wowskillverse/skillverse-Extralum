@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo SVG Parallax — Extralum</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════════
+       HERO — sección con el efecto parallax
+       El SVG se carga como <img> y parallax.js lo
+       convierte a inline automáticamente para poder
+       animar las capas internas (<g> con data-parallax-*).
+       ════════════════════════════════════════════════ -->
+  <section class="ep-hero" aria-label="Hero con efecto parallax">
+
+    <div class="ep-scene">
+      <!--
+        Cambia el src por la ruta de tu propio SVG.
+        El archivo debe estar en la misma carpeta o en /assets/.
+        En WordPress usa la URL completa: https://tudominio.com/wp-content/uploads/hero.svg
+      -->
+      <img
+        class="ep-svg"
+        src="assets/hero.svg"
+        alt="Ilustración animada de Extralum"
+        width="800"
+        height="600"
+      />
+    </div>
+
+    <!-- Pista de scroll -->
+    <div class="ep-scroll-hint" aria-hidden="true">scroll</div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════════════
+       SECCIÓN de relleno — para probar scroll parallax
+       ════════════════════════════════════════════════ -->
+  <section class="ep-section">
+    <div class="ep-section-inner">
+      <h2>Efecto parallax activo</h2>
+      <p>
+        Mueve el mouse sobre la imagen de arriba para ver el parallax por cursor.
+        Al hacer scroll la escena responde con diferente velocidad por capa,
+        creando profundidad sin ninguna librería externa.
+      </p>
+      <p>
+        Las capas del SVG (<code>&lt;g&gt;</code>) usan los atributos
+        <code>data-parallax-mouse</code> y <code>data-parallax-scroll</code>
+        para controlar la intensidad de cada plano de forma independiente.
+      </p>
+    </div>
+  </section>
+
+  <section class="ep-section" style="background: rgba(124,58,237,0.04);">
+    <div class="ep-section-inner">
+      <h2>Más contenido</h2>
+      <p>
+        Agrega todo el contenido de tu página aquí. El hero parallax
+        vive dentro de <code>.ep-hero</code> y no interfiere con el
+        resto del diseño de WordPress.
+      </p>
+      <p style="margin-top: 1rem;">
+        <a href="index.html" style="color: #c4b5fd;">Portada principal</a>
+        ·
+        <a href="scroll-background.html" style="color: #c4b5fd;">Demo: fondo SVG fijo + parallax por scroll del body</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════
+       SCRIPT
+       En WordPress usarás wp_enqueue_script() en su lugar.
+       ════════════════════════════════════════════════ -->
+  <script src="parallax.js"></script>
+
+</body>
+</html>
