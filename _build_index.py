@@ -51,7 +51,16 @@ HERO_STYLE = """<style id="extralum-portada-video">
   padding: 0;
   min-height: calc(100svh - 92px);
 }
-#contenido-principal.extralum-hero-video video {
+#contenido-principal.extralum-hero-video .extralum-hero-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+#contenido-principal.extralum-hero-video video,
+#contenido-principal.extralum-hero-video .extralum-hero-still {
   position: absolute;
   top: 0;
   left: 0;
@@ -59,6 +68,91 @@ HERO_STYLE = """<style id="extralum-portada-video">
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+#contenido-principal.extralum-hero-video video {
+  z-index: 1;
+  transition: opacity 0.45s ease;
+}
+#contenido-principal.extralum-hero-video video.extralum-hero-video--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+#contenido-principal.extralum-hero-video .extralum-hero-still {
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: scale(1);
+  will-change: opacity, transform;
+}
+#contenido-principal.extralum-hero-video .extralum-hero-still--visible {
+  opacity: 1;
+}
+#contenido-principal.extralum-hero-video .extralum-hero-still--kenburns {
+  animation: extralumKenBurnsIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes extralumKenBurnsIn {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+#contenido-principal.extralum-hero-video .extralum-hero-still-a {
+  z-index: 2;
+}
+#contenido-principal.extralum-hero-video .extralum-hero-still-b {
+  z-index: 3;
+}
+#contenido-principal.extralum-hero-video .extralum-hero-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 12px 20px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.65s ease, visibility 0.65s ease;
+}
+#contenido-principal.extralum-hero-video .extralum-hero-bar.extralum-hero-bar--visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+#contenido-principal.extralum-hero-video .extralum-hero-bar button {
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  background: rgba(12, 70, 132, 0.55);
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+#contenido-principal.extralum-hero-video .extralum-hero-bar button:hover {
+  background: rgba(12, 70, 132, 0.75);
+}
+#contenido-principal.extralum-hero-video .extralum-hero-bar button.is-active {
+  background: rgba(160, 206, 78, 0.95);
+  color: #1a1a1a;
+  border-color: transparent;
+}
+@media (prefers-reduced-motion: reduce) {
+  #contenido-principal.extralum-hero-video video,
+  #contenido-principal.extralum-hero-video .extralum-hero-still,
+  #contenido-principal.extralum-hero-video .extralum-hero-bar {
+    transition: none;
+  }
+  #contenido-principal.extralum-hero-video .extralum-hero-still--kenburns {
+    animation: none;
+  }
 }
 </style>"""
 head = head.replace("</head>", HERO_STYLE + "</head>", 1)
@@ -74,12 +168,26 @@ post_classes = re.search(
     s[post_open : post_open + 200],
 )
 post_class_str = post_classes.group(1) if post_classes else "page type-page status-publish hentry"
+HERO_SCRIPT = '<script src="assets/portada-hero.js" defer></script>'
+
 post_inner = (
     f'<div id="post-portada" class="{post_class_str}">'
     '<span class="entry-title rich-snippet-hidden">Extralum</span>'
     '<div id="contenido-principal" class="post-content extralum-hero-video">'
-    '<video src="assets/VID_EXTRALUM_360.mp4" autoplay muted loop playsinline '
-    'preload="metadata" aria-label="Vídeo Extralum"></video>'
+    '<div class="extralum-hero-media">'
+    '<video id="extralum-hero-video" src="assets/VID_EXTRALUM_360.mp4" '
+    'autoplay muted playsinline preload="metadata" aria-label="Vídeo Extralum"></video>'
+    '<img class="extralum-hero-still extralum-hero-still-a" alt="" decoding="async" hidden />'
+    '<img class="extralum-hero-still extralum-hero-still-b" alt="" decoding="async" hidden />'
+    '<div class="extralum-hero-bar" role="group" aria-label="Acabados">'
+    '<button type="button" data-finish="champana">Champaña</button>'
+    '<button type="button" data-finish="natural">Natural</button>'
+    '<button type="button" data-finish="negra">Negra</button>'
+    '<button type="button" data-finish="nogal">Nogal</button>'
+    "</div>"
+    "</div>"
+    f"{HERO_SCRIPT}"
+    "</div>"
     "</div>"
 )
 
