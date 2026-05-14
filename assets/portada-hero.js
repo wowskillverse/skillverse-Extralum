@@ -13,6 +13,18 @@
   var bar = root.querySelector('.extralum-hero-bar');
   if (!video || !imgA || !imgB || !bar) return;
 
+  /** Velocidad de reproducción del hero (1 = normal). Rango habitual ~0.25–4 según navegador. */
+  var VIDEO_PLAYBACK_RATE = 1.3;
+
+  function applyPlaybackRate() {
+    try {
+      video.playbackRate = VIDEO_PLAYBACK_RATE;
+    } catch (e) {}
+  }
+
+  applyPlaybackRate();
+  video.addEventListener('loadedmetadata', applyPlaybackRate);
+
   var map = {
     champana: 'assets/Champaña.jpeg',
     natural: 'assets/Natural.jpeg',
